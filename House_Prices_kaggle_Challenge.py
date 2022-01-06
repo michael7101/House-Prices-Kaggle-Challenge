@@ -93,3 +93,60 @@ test_data = test_data.drop(
                         test_data.loc[test_data['Electrical'].isnull()].index)
 # just checking that there's no missing data missing...
 test_data.isnull().sum().max()
+
+# standardizing data
+saleprice_scaled = StandardScaler().fit_transform(
+                                        test_data['SalePrice'][:, np.newaxis])
+low_range = saleprice_scaled[saleprice_scaled[:, 0].argsort()][:10]
+high_range = saleprice_scaled[saleprice_scaled[:, 0].argsort()][-10:]
+print('outer range (low) of the distribution:')
+print(low_range)
+print('\nouter range (high) of the distribution:')
+print(high_range)
+
+# bivariate analysis saleprice/grlivarea
+var = 'GrLivArea'
+data = pd.concat([test_data['SalePrice'], test_data[var]], axis=1)
+# data.plot.scatter(x=var, y='SalePrice', ylim=(0, 800000))
+# plt.show()
+
+# deleting points
+test_data.sort_values(by='GrLivArea', ascending=False)[:2]
+test_data = test_data.drop(test_data[test_data['Id'] == 1299].index)
+test_data = test_data.drop(test_data[test_data['Id'] == 524].index)
+
+# bivariate analysis saleprice/grlivarea
+var = 'TotalBsmtSF'
+data = pd.concat([test_data['SalePrice'], test_data[var]], axis=1)
+# data.plot.scatter(x=var, y='SalePrice', ylim=(0, 800000))
+# plt.show()
+
+# histogram and normal probability plot
+sns.distplot(test_data['SalePrice'], fit=norm)
+fig = plt.figure()
+res = stats.probplot(test_data['SalePrice'], plot=plt)
+plt.show()
+
+# applying log transformation
+test_data['SalePrice'] = np.log(test_data['SalePrice'])
+
+# transformed histogram and normal probability plot
+sns.distplot(test_data['SalePrice'], fit=norm)
+fig = plt.figure()
+res = stats.probplot(test_data['SalePrice'], plot=plt)
+plt.show()
+
+# data transformation
+test_data['GrLivArea'] = np.log(test_data['GrLivArea'])
+
+# transformed histogram and normal probability plot
+sns.distplot(test_data['GrLivArea'], fit=norm)
+fig = plt.figure()
+res = stats.probplot(test_data['GrLivArea'], plot=plt)
+plt.show()
+
+# histogram and normal probability plot
+sns.distplot(test_data['TotalBsmtSF'], fit=norm)
+fig = plt.figure()
+res = stats.probplot(test_data['TotalBsmtSF'], plot=plt)
+plt.show()
