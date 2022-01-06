@@ -44,3 +44,11 @@ plt.figure(3)
 plt.title('Log Normal')
 sns.distplot(y, kde=False, fit=st.lognorm)
 plt.show()
+
+
+def test_normality(x): return stats.shapiro(x.fillna(0))[1] < 0.01
+
+
+normal = pd.DataFrame(train[quantitative])
+normal = normal.apply(test_normality)
+print(not normal.any())
