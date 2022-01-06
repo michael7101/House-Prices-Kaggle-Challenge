@@ -150,3 +150,33 @@ sns.distplot(test_data['TotalBsmtSF'], fit=norm)
 fig = plt.figure()
 res = stats.probplot(test_data['TotalBsmtSF'], plot=plt)
 plt.show()
+
+# create column for new variable
+# if area>0 it gets 1, for area==0 it gets 0
+test_data['HasBsmt'] = pd.Series(
+                        len(test_data['TotalBsmtSF']), index=test_data.index)
+test_data['HasBsmt'] = 0
+test_data.loc[test_data['TotalBsmtSF'] > 0, 'HasBsmt'] = 1
+
+# transform data
+test_data.loc[test_data['HasBsmt'] == 1, 'TotalBsmtSF'] = np.log(
+                                                    test_data['TotalBsmtSF'])
+# histogram and normal probability plot
+sns.distplot(test_data[test_data['TotalBsmtSF'] > 0]['TotalBsmtSF'], fit=norm)
+fig = plt.figure()
+res = stats.probplot(
+            test_data[test_data['TotalBsmtSF'] > 0]['TotalBsmtSF'], plot=plt)
+plt.show()
+
+# scatter plot
+plt.scatter(test_data['GrLivArea'], test_data['SalePrice'])
+plt.show()
+
+# scatter plot
+plt.scatter(
+            test_data[test_data['TotalBsmtSF'] > 0]['TotalBsmtSF'],
+            test_data[test_data['TotalBsmtSF'] > 0]['SalePrice'])
+plt.show()
+
+# convert categorical variable into dummy
+test_data = pd.get_dummies(test_data)
