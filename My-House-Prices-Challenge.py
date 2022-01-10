@@ -10,3 +10,11 @@ from scipy.stats import skew
 from IPython.display import display
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+
+# Load Data
+train = pd.read_csv("train.csv")
+test = pd.read_csv("test.csv")
+
+# View Data
+print(train.head())
