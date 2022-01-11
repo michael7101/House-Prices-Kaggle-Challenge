@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
-
+from sklearn.preprocessing import OrdinalEncoder
 
 # Read the data
 X = pd.read_csv('train.csv', index_col='Id')
@@ -47,7 +47,8 @@ print("Unique values in 'Condition2' column in training data:", X_train[
 print("\nUnique values in 'Condition2' column in validation data:", X_valid[
     'Condition2'].unique())
 # Categorical columns in the training data
-object_cols = [col for col in X_train.columns if X_train[col].dtype == "object"]
+object_cols = [
+    col for col in X_train.columns if X_train[col].dtype == "object"]
 
 # Columns that can be safely ordinal encoded
 good_label_cols = [col for col in object_cols if
@@ -61,4 +62,23 @@ print(
     '\nCategorical columns that will be dropped from the dataset:',
     bad_label_cols)
 
-    
+# Drop categorical columns that will not be encoded
+label_X_train = X_train.drop(bad_label_cols, axis=1)
+label_X_valid = X_valid.drop(bad_label_cols, axis=1)
+
+# Apply ordinal encoder
+ordinal_encoder = OrdinalEncoder()
+label_X_train[good_label_cols] = ordinal_encoder.fit_transform(
+    X_train[good_label_cols])
+label_X_valid[good_label_cols] = ordinal_encoder.transform(
+    X_valid[good_label_cols])
+
+print("MAE from Approach 2 (Ordinal Encoding):")
+print(score_dataset(label_X_train, label_X_valid, y_train, y_valid))
+
+# Get number of unique entries in each column with categorical data
+object_nunique = list(map(lambda col: X_train[col].nunique(), object_cols))
+d = dict(zip(object_cols, object_nunique))
+
+# Print number of unique entries by column, in ascending order
+sorted(d.items(), key=lambda x: x[1])
