@@ -105,3 +105,4 @@ preds_test = model.predict(final_X_test)
 output = pd.DataFrame({'Id': X_test.index,
                        'SalePrice': preds_test})
 output.to_csv('submission2.csv', index=False)
+5
