@@ -57,4 +57,18 @@ for i in range(0, len(models)):
     mae = score_model(models[i])
     print("Model %d MAE: %d" % (i+1, mae))
 
-    
+
+# Define a model
+best_model = model_3
+my_model = best_model
+
+# Fit the model to the training data
+my_model.fit(X, y)
+
+# Generate test predictions
+preds_test = my_model.predict(X_test)
+
+# Save predictions in format used for competition scoring
+output = pd.DataFrame({'Id': X_test.index,
+                       'SalePrice': preds_test})
+output.to_csv('submission1.csv', index=False)
