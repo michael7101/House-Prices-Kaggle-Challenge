@@ -1,15 +1,15 @@
-###House-Prices-Kaggle-Challenge
+### House-Prices-Kaggle-Challenge
 
-#####About
+##### About
 
 In this competition we use creative feature engineering and advanced regression techniques to predict house sales prices. The full details of the competition can be found at https://www.kaggle.com/c/house-prices-advanced-regression-techniques.
 
-#####Practice Skills
+##### Practice Skills
 
 Creative feature engineering
 Advanced regression techniques like random forest and gradient boosting
 
-#####Goal
+##### Goal
 
 It is my job to predict the sales price for each house. For each Id in the test set, I must predict the value of the SalePrice variable.
 
