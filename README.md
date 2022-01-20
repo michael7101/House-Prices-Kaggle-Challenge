@@ -17,21 +17,8 @@ To win the competition, I must build a model that predicts the SalePrice variabl
 
 Submissions are evaluated on Root-Mean-Squared-Error (RMSE) between the logarithm of the predicted value and the logarithm of the observed sales price. (Taking logs means that errors in predicting expensive houses and cheap houses will affect the result equally.)
 
-##### Submission File Format
-
-The file should contain a header and have the following format:
-
-Id, SalePrice
-1461, 169000. 1
-1462, 187724. 1233
-1463, 175221
-etc.
-
-### Acknowledgments
-The Ames Housing dataset was compiled by Dean De Cock for use in data science education. It's an incredible alternative for data scientists looking for a modernized and expanded version of the often cited Boston Housing dataset.
-
-Photo by Tom Thain on Unsplash.
-
+### Imports
+```
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.compose import ColumnTransformer
@@ -40,6 +27,17 @@ from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
+```
+
+```
+### View the traing data
+train.head()
+```
+
+```
+# Describe the traing data
+train.describe()
+```
 
 ###Read the data
 X_full = pd.read_csv('train.csv', index_col='Id')
